@@ -12,5 +12,6 @@ Nerves project experiment. Aims:
 ### Get on the PI.
 
 1. Get a plug router into the supervision tree, so we know it's all working.
-2. Make sure you're set up with `brew nerves`, & exrm
-3. Set up nerves for project. Remember to source nerves-env.sh & MIX_ENV=prod
+2. Add ethernet in mix.exs and supervision tree so we can get to the app once it's deployed. (Maybe only in prod?)
+3. Make sure you're set up with `brew nerves`, & exrm
+4. Set up nerves for project. Remember to source nerves-env.sh & MIX_ENV=prod

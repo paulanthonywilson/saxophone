@@ -7,9 +7,12 @@ defmodule Saxophone.Supervisor do
 
   def init([]) do
     children = [
-      worker(Saxophone.Router, []),
-      worker(Ethernet, [])
-    ]
+      worker(Saxophone.Router, [])
+    ] ++
+      case Mix.env do
+        :prod -> [worker(Ethernet, [])]
+        _ -> []
+      end
     supervise(children, strategy: :one_for_one)
   end
 end

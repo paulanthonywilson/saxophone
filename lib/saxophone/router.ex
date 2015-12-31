@@ -5,7 +5,8 @@ defmodule Saxophone.Router do
   plug :dispatch
 
   def start_link do
-    {:ok, _} = Plug.Adapters.Cowboy.http Saxophone.Router, []
+    cowboy_options = Application.get_env(:saxophone, :cowboy_options)
+    {:ok, _} = Plug.Adapters.Cowboy.http __MODULE__, [], cowboy_options
   end
 
   get "/" do
