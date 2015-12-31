@@ -1,19 +1,8 @@
 # Saxophone
 
-**TODO: Add description**
+Nerves project experiment. Aims:
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-  1. Add saxophone to your list of dependencies in `mix.exs`:
-
-        def deps do
-          [{:saxophone, "~> 0.0.1"}]
-        end
-
-  2. Ensure saxophone is started before your application:
-
-        def application do
-          [applications: [:saxophone]]
-        end
+1. Get new project on Raspberry PI, from scratch with Nerves
+2. Control GPIO from simple web app
+3. Trigger the M&Ms saxophonist by toggling a GPIO port on an off
+4. Integrate with Slack, so the Saxophonist and be triggered from there.
