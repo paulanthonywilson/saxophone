@@ -50,6 +50,7 @@ defmodule Saxophone.Router do
     <html>
       <head>
         <title>Led thingy</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
       </head>
       <body>
         <p>#{message}</p>
