@@ -23,6 +23,16 @@ defmodule Saxophone.Router do
     send_resp(conn, 200, "Hello" |> web_page)
   end
 
+  get "/light_on" do
+    digital_write(17, 1)
+    send_resp(conn, 200, "The light is on!")
+  end
+
+  get "/light_off" do
+    digital_write(17, 0)
+    send_resp(conn, 200, "The light is off!")
+  end
+
   match _ do
     send_resp(conn, 404, "Not found")
   end
@@ -34,7 +44,6 @@ defmodule Saxophone.Router do
     Process.exit(pid, :normal)
     value
   end
-
 
   defp web_page(message) do
     """
