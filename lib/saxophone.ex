@@ -7,7 +7,8 @@ defmodule Saxophone.Supervisor do
 
   def init([]) do
     children = [
-      worker(Saxophone.Router, [])
+      worker(Saxophone.Router, []),
+      worker(Ethernet, [])
     ]
     supervise(children, strategy: :one_for_one)
   end

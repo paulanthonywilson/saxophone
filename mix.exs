@@ -11,12 +11,14 @@ defmodule Saxophone.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :cowboy, :plug],
+    [applications: [:logger, :cowboy, :plug, :ethernet],
      mod: {Saxophone, {}}]
   end
 
   defp deps do
     [{:cowboy, "~> 1.0"},
-     {:plug, "~> 1.0"}]
+     {:plug, "~> 1.0"},
+     { :ethernet, git: "https://github.com/cellulose/ethernet.git" },
+    {:exrm, "~> 1.0.0-rc7"}]
   end
 end
