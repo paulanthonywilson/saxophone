@@ -18,7 +18,7 @@ defmodule Saxophone.Mixfile do
   defp deps do
     [{:cowboy, "~> 1.0"},
      {:plug, "~> 1.0"},
-     {:elixir_ale, "~> 0.4"},
+     {:elixir_ale, git: "git@github.com:fhunleth/elixir_ale.git"},
      { :ethernet, git: "https://github.com/cellulose/ethernet.git" },
     {:exrm, "~> 1.0.0-rc7"}]
   end
