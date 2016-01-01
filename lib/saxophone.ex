@@ -7,12 +7,10 @@ defmodule Saxophone.Supervisor do
 
   def init([]) do
     children = [
-      worker(Saxophone.Router, [])
-    ] ++
-      case Application.get_env(:saxophone, :start_ethernet) do
-        true -> [worker(Ethernet, [])]
-        _ -> []
-      end
+      worker(Saxophone.Router, []),
+      worker(Ethernet, []),
+      worker(Gpio, [17, :output, [name: :gpio_17]])
+      ]
     supervise(children, strategy: :one_for_one)
   end
 end
