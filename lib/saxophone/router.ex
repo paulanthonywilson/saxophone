@@ -14,12 +14,12 @@ defmodule Saxophone.Router do
   end
 
   post "/light_on" do
-    Gpio.write(:gpio_17, 1)
+    Gpio.write(:led, 1)
     send_resp(conn, 200, "The light is on!" |> web_page)
   end
 
   post "/light_off" do
-    Gpio.write(:gpio_17, 0)
+    Gpio.write(:led, 0)
     send_resp(conn, 200, "The light is off!" |> web_page)
   end
 
