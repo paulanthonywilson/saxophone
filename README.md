@@ -12,7 +12,12 @@ See [Homebrew nerves](https://github.com/nerves-project/homebrew-nerves) to get 
 
 On the PI it listens on 80; you'll need to connect to your network using the Ethernet. There's a horrid webpage with buttons for triggering the Sax player, and turning the LED on and off.
 
+## Acknowledgement
+
+Inspired by Keyvan Fatehi's [garage door controller post](http://keyvanfatehi.com/2015/12/17/wifi-garage-door/)
+
 ## Todo
 
+* Better README
 * Blog post (which will be on the [Cultivate Blog](http://www.cultivatehq.com/posts/))
 * Slack integration
