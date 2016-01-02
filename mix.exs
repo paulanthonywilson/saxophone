@@ -11,15 +11,23 @@ defmodule Saxophone.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :cowboy, :plug, :ethernet, :elixir_ale],
+    [applications: applications,
      mod: {Saxophone, {}}]
   end
 
   defp deps do
     [{:cowboy, "~> 1.0"},
      {:plug, "~> 1.0"},
-     {:elixir_ale, git: "git@github.com:fhunleth/elixir_ale.git"},
-     { :ethernet, git: "https://github.com/cellulose/ethernet.git" },
+     {:elixir_ale, git: "git@github.com:fhunleth/elixir_ale.git", only: [:prod]},
+     {:ethernet, git: "https://github.com/cellulose/ethernet.git", only: :prod},
     {:exrm, "~> 1.0.0-rc7"}]
+  end
+
+  defp applications do
+    general_apps = [:logger, :cowboy, :plug]
+    case Mix.env do
+      :prod -> [:ethernet, :elixir_ale | general_apps]
+      _ -> general_apps
+    end |> IO.inspect
   end
 end
