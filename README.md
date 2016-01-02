@@ -1,20 +1,18 @@
 # Saxophone
 
-Nerves project experiment. Aims:
+Project to trigger an [M&M's Rock Star Candy](http://www.amazon.com/Candy-Rific-Rockstar-0-53-Ounce/dp/B009YFI9ZU) from a Raspberry PI using [Elixir/OTP](http://elixir-lang.org), and [Nerves](http://nerves-project.org) with [homebrew-nerves](https://github.com/nerves-project/homebrew-nerves).
 
-1. Get new project on Raspberry PI, from scratch with Nerves
-2. Control GPIO from simple web app
-3. Trigger the M&Ms saxophonist by toggling a GPIO port on an off
-4. Integrate with Slack, so the Saxophonist and be triggered from there.
+## Setup
 
-## Notes
+Currently configured for the Sax button to be on GPIO pin 4; this is soldered to the ground on the M&M's trigger button. There is also an LED you can switch on and off on port 17. Configuration is in [config.exs](blob/master/config/config.exs), obviously.
 
-### Get on the PI.
+See [Homebrew nerves](https://github.com/nerves-project/homebrew-nerves) to get on the PI.
 
-1. Get a plug router into the supervision tree, so we know it's all working.
-2. Add ethernet in mix.exs and supervision tree so we can get to the app once it's deployed. (Maybe only in prod?)
-3. Make sure you're set up with `brew nerves`, & exrm
-4. Set up nerves for project. Remember to source nerves-env.sh & MIX_ENV=prod
-5. Ensure everything is clean before `make all`.
-6. From a clean build the `ale` binary doesn't make it to `_build/` and subsequently the `rel/` directories. After first build `rm -rf _build` and `make compile`
-7. Add the `Gpio` worker for the port into the supervision tree.
+## Triggering
+
+On the PI it listens on 80; you'll need to connect to your network using the Ethernet. There's a horrid webpage with buttons for triggering the Sax player, and turning the LED on and off.
+
+## Todo
+
+* Blog post (which will be on the [Cultivate Blog](http://www.cultivatehq.com/posts/))
+* Slack integration
