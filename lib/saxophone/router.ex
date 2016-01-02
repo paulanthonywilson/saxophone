@@ -23,6 +23,11 @@ defmodule Saxophone.Router do
     send_resp(conn, 200, "The light is off!" |> web_page)
   end
 
+  post "play_sax" do
+    :ok = Saxophone.Saxophonist.play(:saxophonist)
+    send_resp(conn, 200, "Baker Street, it is not." |> web_page)
+  end
+
   match _ do
     send_resp(conn, 404, "Not found")
   end
@@ -36,6 +41,9 @@ defmodule Saxophone.Router do
       </head>
       <body>
         <p>#{message}</p>
+        <form action = "/play_sax" method="post">
+          <input type="submit" value="Play Sax!"></input>
+        </form>
         <form action = "/light_on" method="post">
           <input type="submit" value="Turn light on"></input>
         </form>
