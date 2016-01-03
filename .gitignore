@@ -6,3 +6,4 @@ erl_crash.dump
 _images
 rel/nerves_system_libs
 rel/saxophone
+config/config.secret.exs

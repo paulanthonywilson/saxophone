@@ -1,4 +1,4 @@
-defmodule Saxophone .Saxophonist do
+defmodule Saxophone.Saxophonist do
   use GenServer
   @moduledoc """
   Makes a M&M's rockstar candy saxophonist play a tune.
