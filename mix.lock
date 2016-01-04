@@ -12,6 +12,7 @@
   "idna": {:hex, :idna, "1.0.3"},
   "inflex": {:hex, :inflex, "1.0.0"},
   "mimerl": {:hex, :mimerl, "1.0.2"},
+  "nerves_io_ethernet": {:git, "https://github.com/nerves-project/nerves_io_ethernet.git", "785310644c16182d7993b641af539d6a0a2d9865", []},
   "plug": {:hex, :plug, "1.0.3"},
   "poison": {:hex, :poison, "1.5.0"},
   "providers": {:hex, :providers, "1.4.1"},

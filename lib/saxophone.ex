@@ -13,10 +13,10 @@ defmodule Saxophone.Supervisor do
   def init([]) do
     children = [
       worker(Saxophone.Router, []),
-      worker(Ethernet, []),
+      worker(Nerves.IO.Ethernet, [:eth0], [function: :setup]),
       worker(Gpio, [@led_pin, :output, [name: :led]]),
       worker(Saxophone.Saxophonist, [@sax_pin, @sax_toggle_time, [name: :saxophonist]]),
-      worker(Saxophone.SlackBot, [@slackbot_token])
+      # worker(Saxophone.SlackBot, [@slackbot_token])
       ]
     supervise(children, strategy: :one_for_one)
   end
@@ -25,7 +25,12 @@ end
 defmodule Saxophone do
   use Application
 
+  @resolve_conf_config Application.get_env(:saxophone, :resolv_conf_content)
+
   def start(_type, _args) do
+    # if @resolve_conf_config do
+    #   File.write("/etc/resolv.conf", @resolve_conf_config)
+    # end
     Saxophone.Supervisor.start_link
   end
 end

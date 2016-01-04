@@ -1,14 +1,14 @@
 if :prod != Mix.env do
 
-  defmodule Ethernet do
+  defmodule Nerves.IO.Ethernet do
     use GenServer
 
     @moduledoc """
-    Does nothing. Stands in for https://github.com/cellulose/ethernet
+    Does nothing. Stands in for https://github.com/nerves-project/nerves_io_ethernet
     during development. Partial implementation for now.
     """
 
-    def start_link do
+    def setup _interface do
       GenServer.start_link(__MODULE__, [], [name: :dummy_ethernet])
     end
 
