@@ -28,9 +28,6 @@ defmodule Saxophone do
   @resolve_conf_config Application.get_env(:saxophone, :resolv_conf_content)
 
   def start(_type, _args) do
-    # if @resolve_conf_config do
-    #   File.write("/etc/resolv.conf", @resolve_conf_config)
-    # end
     Saxophone.Supervisor.start_link
   end
 end
