@@ -1,6 +1,7 @@
 if :prod != Mix.env do
 
   defmodule Nerves.IO.Ethernet do
+    require Logger
     use GenServer
 
     @moduledoc """
@@ -8,14 +9,21 @@ if :prod != Mix.env do
     during development. Partial implementation for now.
     """
 
-    def setup _interface do
-      GenServer.start_link(__MODULE__, [], [name: :dummy_ethernet])
+    def setup interface, opts \\ [] do
+      GenServer.start_link(__MODULE__, {interface, opts}, [name: :dummy_ethernet])
     end
 
     def init(_args) do
+      if Application.get_env(:saxophone, :kill_dummy_ethernet) do
+        send(self, :crash)
+      end
       {:ok, []}
     end
 
+    def handle_info(:crash, state) do
+      Logger.info("Ethernet crashing")
+      {:noreply, :kill, state}
+    end
   end
 
   defmodule Gpio do
