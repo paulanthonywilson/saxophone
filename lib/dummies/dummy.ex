@@ -10,7 +10,7 @@ if :prod != Mix.env do
     """
 
     def setup interface, opts \\ [] do
-      GenServer.start_link(__MODULE__, {interface, opts}, [name: :dummy_ethernet])
+      GenServer.start_link(__MODULE__, {interface, opts}, [name: :ethernet])
     end
 
     def init(_args) do
