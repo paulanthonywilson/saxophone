@@ -16,7 +16,7 @@ defmodule Saxophone.EthernetManager do
 
 
   def handle_info(:start, %{interface: interface, ethernet_opts: ethernet_opts} = status) do
-    {:ok, eth_pid} = Nerves.IO.Ethernet.setup(interface, ethernet_opts)
+    {:ok, eth_pid} = Nerves.Networking.setup(interface, ethernet_opts)
     Process.monitor(eth_pid)
     {:noreply, status}
   end

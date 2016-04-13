@@ -1,6 +1,6 @@
 if :prod != Mix.env do
 
-  defmodule Nerves.IO.Ethernet do
+  defmodule Nerves.Networking do
     require Logger
     use GenServer
 
