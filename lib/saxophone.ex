@@ -7,6 +7,8 @@ defmodule Saxophone.Supervisor do
   @slackbot_token  Application.get_env(:saxophone, :slackbot_token)
   @ethernet_retry_seconds Application.get_env(:saxophone, :ethernet_retry_interval_seconds)
 
+  @stepper_pins Application.get_env(:saxophone, :steppers)
+
   def start_link do
     Supervisor.start_link(__MODULE__, [])
   end
@@ -14,11 +16,11 @@ defmodule Saxophone.Supervisor do
   def init([]) do
     children = [
       worker(Saxophone.Router, []),
-      # worker(Nerves.IO.Ethernet, [:eth0], [function: :setup]),
       worker(Saxophone.EthernetManager, [:timer.seconds(@ethernet_retry_seconds),
                                          :eth0, [], [name: :ethernet_manager]] ),
       worker(Gpio, [@led_pin, :output, [name: :led]]),
       worker(Saxophone.Saxophonist, [@sax_pin, @sax_toggle_time, [name: :saxophonist]]),
+      worker(Saxophone.StepperMotor, [@stepper_pins[:right], [name: :right_stepper]])
       # worker(Saxophone.SlackBot, [@slackbot_token])
       ]
     supervise(children, strategy: :one_for_one)
