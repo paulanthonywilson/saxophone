@@ -1,5 +1,6 @@
 defmodule Saxophone.Router do
   use Plug.Router
+  alias Saxophone.{StepperMotor, Saxophonist}
 
   plug :match
   plug :dispatch
@@ -24,8 +25,38 @@ defmodule Saxophone.Router do
   end
 
   post "play_sax" do
-    :ok = Saxophone.Saxophonist.play(:saxophonist)
+    :ok = Saxophonist.play(:saxophonist)
     send_resp(conn, 200, "Baker Street, it is not." |> web_page)
+  end
+
+
+  post "forward" do
+    :right_stepper |> StepperMotor.set_direction(:forward)
+    send_resp(conn, 200, "Forward!" |> web_page)
+  end
+
+
+  post "back" do
+    :right_stepper |> StepperMotor.set_direction(:back)
+    send_resp(conn, 200, "Back!" |> web_page)
+  end
+
+
+  post "stop" do
+    :right_stepper |> StepperMotor.set_direction(:neutral)
+    send_resp(conn, 200, "Stopped!" |> web_page)
+  end
+
+
+  post "slower" do
+    :right_stepper |> StepperMotor.set_step_rate(50)
+    send_resp(conn, 200, "Slower!" |> web_page)
+  end
+
+
+  post "slow" do
+    :right_stepper |> StepperMotor.set_step_rate(15)
+    send_resp(conn, 200, "Slow!" |> web_page)
   end
 
   match _ do
@@ -49,6 +80,22 @@ defmodule Saxophone.Router do
         </form>
         <form action = "/light_off" method="post">
           <input type="submit" value="Turn light off"></input>
+        </form>
+        <hr/>
+        <form action = "/forward" method="post">
+          <input type="submit" value="forward"></input>
+        </form>
+        <form action = "/back" method="post">
+          <input type="submit" value="back"></input>
+        </form>
+        <form action = "/stop" method="post">
+          <input type="submit" value="stop"></input>
+        </form>
+        <form action = "/slow" method="post">
+          <input type="submit" value="slow"></input>
+        </form>
+        <form action = "/slower" method="post">
+          <input type="submit" value="slower"></input>
         </form>
       </body>
     </html>
