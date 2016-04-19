@@ -59,6 +59,16 @@ defmodule Saxophone.Router do
     send_resp(conn, 200, "Slow!" |> web_page)
   end
 
+  post "low_gear" do
+    :right_stepper |> StepperMotor.set_low_gear
+    send_resp(conn, 200, "Low!" |> web_page)
+  end
+
+  post "high_gear" do
+    :right_stepper |> StepperMotor.set_high_gear
+    send_resp(conn, 200, "High!" |> web_page)
+  end
+
   match _ do
     send_resp(conn, 404, "Not found")
   end
@@ -96,6 +106,12 @@ defmodule Saxophone.Router do
         </form>
         <form action = "/slower" method="post">
           <input type="submit" value="slower"></input>
+        </form>
+        <form action = "/low_gear" method="post">
+        <input type="submit" value="low gear"></input>
+        </form>
+        <form action = "/high_gear" method="post">
+        <input type="submit" value="high gear"></input>
         </form>
       </body>
     </html>

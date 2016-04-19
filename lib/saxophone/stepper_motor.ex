@@ -2,7 +2,7 @@ defmodule Saxophone.StepperMotor do
   use GenServer
   alias Saxophone.StepperMotor
 
-  defstruct pins: [], direction: :neutral, position: 0, step_millis: 100, timer_ref: nil
+  defstruct pins: [], direction: :neutral, position: 0, step_millis: 100, timer_ref: nil, gear: :low
 
   @position_pin_values [
     [0, 0, 0, 1],
@@ -44,6 +44,14 @@ defmodule Saxophone.StepperMotor do
     pid |> GenServer.call(:get_state)
   end
 
+  def set_low_gear(pid) do
+    pid |> GenServer.call({:set_gear, :low})
+  end
+
+  def set_high_gear(pid) do
+    pid |> GenServer.call({:set_gear, :high})
+  end
+
   ## Callbacks
   def init(pin_ids) do
     gpio_pins = pin_ids |> Enum.map(fn pin ->
@@ -69,11 +77,16 @@ defmodule Saxophone.StepperMotor do
     {:reply, status, status}
   end
 
+  def handle_call({:set_gear, gear}, _from, status) do
+    {:reply, :ok, %{status | gear: gear}}
+  end
+
   def handle_info(:step, status = %{pins: pins,
                                     direction: direction,
                                     step_millis: step_millis,
-                                    position: position}) do
-    new_position = new_position(position, direction)
+                                    position: position,
+                                    gear: gear}) do
+    new_position = new_position(position, direction, step(gear))
     @position_pin_values
     |> Enum.at(new_position)
     |> Enum.zip(pins)
@@ -94,19 +107,21 @@ defmodule Saxophone.StepperMotor do
   defp schedule_next_step(:neutral, _step_millis), do: nil
   defp schedule_next_step(_direction, step_millis), do: Process.send_after(self, :step, step_millis)
 
-
   defp cancel_timer(:nil), do: false
   defp cancel_timer(timer_ref), do: Process.cancel_timer(timer_ref)
 
-  defp new_position(position, :neutral) do
+  defp new_position(position, :neutral, _) do
     position
   end
 
-  defp new_position(position, :forward) do
-    (position + 1) |> rem(8)
+  defp new_position(position, :forward, step) do
+    (position + step) |> rem(8)
   end
 
-  defp new_position(position, :back) do
-    (8 + position - 1) |> rem(8)
+  defp new_position(position, :back, step) do
+    (8 + position - step) |> rem(8)
   end
+
+  defp step(:low), do: 1
+  defp step(:high), do: 2
 end

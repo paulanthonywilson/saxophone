@@ -16,8 +16,16 @@ defmodule StepperMotorTest do
     assert state.direction == :neutral
     assert state.position == 0
     assert state.timer_ref == nil
+    assert state.gear == :low
   end
 
+  test "setting_gear", %{pid: pid} do
+    state = pid |> StepperMotor.state
+    pid |> StepperMotor.set_high_gear
+    assert StepperMotor.state(pid).gear == :high
+    pid |> StepperMotor.set_low_gear
+    assert StepperMotor.state(pid).gear == :low
+  end
 
   test "setting a non-neutral direction sets the direction and a timer", %{pid: pid} do
     pid |> StepperMotor.set_direction(:forward)
@@ -116,6 +124,26 @@ defmodule StepperMotorTest do
 
     assert Gpio.pin_state_log(:gpio_30) == [0, 0, 0, 0, 0, 1, 1, 1, 0] |> Enum.reverse
     assert Gpio.pin_state_log(:gpio_33) == [1, 1, 0, 0, 0, 0, 0, 1, 1] |> Enum.reverse
+  end
+
+  test "cycling forward in high", %{pid: pid} do
+    pid |> StepperMotor.set_high_gear
+    pid |> StepperMotor.set_direction(:forward)
+    [2, 4, 6, 0] |> Enum.each(fn i ->
+      send(pid, :step)
+      :timer.sleep(1)
+      assert StepperMotor.state(pid).position == i
+    end)
+  end
+
+  test "cycling back in high", %{pid: pid} do
+    pid |> StepperMotor.set_high_gear
+    pid |> StepperMotor.set_direction(:back)
+    [6, 4, 2, 0, 6] |> Enum.each(fn i ->
+      send(pid, :step)
+      :timer.sleep(1)
+      assert StepperMotor.state(pid).position == i
+    end)
   end
 
   defp expected_pin_pids do
