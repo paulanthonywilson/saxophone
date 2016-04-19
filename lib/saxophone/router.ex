@@ -1,5 +1,6 @@
 defmodule Saxophone.Router do
   use Plug.Router
+  plug Plug.Parsers, parsers: [:urlencoded]
   alias Saxophone.{StepperMotor, Saxophonist}
 
   plug :match
@@ -59,6 +60,13 @@ defmodule Saxophone.Router do
     send_resp(conn, 200, "Slow!" |> web_page)
   end
 
+  post "step_rate" do
+    step_rate = conn.params["step_rate"] |> String.to_integer
+    :right_stepper |> StepperMotor.set_step_rate(step_rate)
+
+    send_resp(conn, 200, "yada" |> web_page)
+  end
+
   post "low_gear" do
     :right_stepper |> StepperMotor.set_low_gear
     send_resp(conn, 200, "Low!" |> web_page)
@@ -74,6 +82,7 @@ defmodule Saxophone.Router do
   end
 
   defp web_page(message) do
+    step_rate = (:right_stepper |> StepperMotor.state).step_millis
     """
     <html>
       <head>
@@ -101,11 +110,9 @@ defmodule Saxophone.Router do
         <form action = "/stop" method="post">
           <input type="submit" value="stop"></input>
         </form>
-        <form action = "/slow" method="post">
-          <input type="submit" value="slow"></input>
-        </form>
-        <form action = "/slower" method="post">
-          <input type="submit" value="slower"></input>
+        <form action = "/step_rate" method="post">
+          <input type="number" name="step_rate" value="#{step_rate}"></input>
+          <input type="submit" value="Step rate"></input>
         </form>
         <form action = "/low_gear" method="post">
         <input type="submit" value="low gear"></input>
