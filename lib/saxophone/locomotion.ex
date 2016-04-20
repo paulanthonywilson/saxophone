@@ -64,12 +64,12 @@ defmodule Saxophone.Locomotion do
   end
 
   def handle_call(:turn_left, _from, state) do
-    set_direction(:back, :back)
+    set_direction(:forward, :forward)
     {:reply, :ok, state}
   end
 
   def handle_call(:turn_right, _from, state) do
-    set_direction(:forward, :forward)
+    set_direction(:back, :back)
     {:reply, :ok, state}
   end
 

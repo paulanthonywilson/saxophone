@@ -36,15 +36,15 @@ defmodule LoccomotionTest do
   test "turn right" do
     Locomotion.turn_right
 
-    assert StepperMotor.state(:right_stepper).direction == :forward
-    assert StepperMotor.state(:left_stepper).direction == :forward
+    assert StepperMotor.state(:right_stepper).direction == :back
+    assert StepperMotor.state(:left_stepper).direction == :back
   end
 
   test "turn left" do
     Locomotion.turn_left
 
-    assert StepperMotor.state(:right_stepper).direction == :back
-    assert StepperMotor.state(:left_stepper).direction == :back
+    assert StepperMotor.state(:right_stepper).direction == :forward
+    assert StepperMotor.state(:left_stepper).direction == :forward
   end
 
 end

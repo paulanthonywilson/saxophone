@@ -1,7 +1,7 @@
 defmodule Saxophone.Router do
   use Plug.Router
   plug Plug.Parsers, parsers: [:urlencoded]
-  alias Saxophone.{StepperMotor, Saxophonist}
+  alias Saxophone.{StepperMotor, Locomotion, Saxophonist}
 
   plug :match
   plug :dispatch
@@ -32,49 +32,38 @@ defmodule Saxophone.Router do
 
 
   post "forward" do
-    :right_stepper |> StepperMotor.set_direction(:forward)
+    Locomotion.forward
     send_resp(conn, 200, "Forward!" |> web_page)
   end
 
 
   post "back" do
-    :right_stepper |> StepperMotor.set_direction(:back)
+    Locomotion.reverse
     send_resp(conn, 200, "Back!" |> web_page)
   end
 
 
   post "stop" do
-    :right_stepper |> StepperMotor.set_direction(:neutral)
+    Locomotion.stop
     send_resp(conn, 200, "Stopped!" |> web_page)
   end
 
 
-  post "slower" do
-    :right_stepper |> StepperMotor.set_step_rate(50)
-    send_resp(conn, 200, "Slower!" |> web_page)
-  end
-
-
-  post "slow" do
-    :right_stepper |> StepperMotor.set_step_rate(15)
-    send_resp(conn, 200, "Slow!" |> web_page)
-  end
-
   post "step_rate" do
     step_rate = conn.params["step_rate"] |> String.to_integer
-    :right_stepper |> StepperMotor.set_step_rate(step_rate)
+    Locomotion.set_step_rate(step_rate)
 
-    send_resp(conn, 200, "yada" |> web_page)
+    send_resp(conn, 200, "Stepping at #{step_rate}" |> web_page)
   end
 
-  post "low_gear" do
-    :right_stepper |> StepperMotor.set_low_gear
-    send_resp(conn, 200, "Low!" |> web_page)
+  post "turn_left" do
+    Locomotion.turn_left
+    send_resp(conn, 200, "Left!" |> web_page)
   end
 
-  post "high_gear" do
-    :right_stepper |> StepperMotor.set_high_gear
-    send_resp(conn, 200, "High!" |> web_page)
+  post "turn_right" do
+    Locomotion.turn_right
+    send_resp(conn, 200, "Right!" |> web_page)
   end
 
   match _ do
@@ -110,15 +99,15 @@ defmodule Saxophone.Router do
         <form action = "/stop" method="post">
           <input type="submit" value="stop"></input>
         </form>
+        <form action = "/turn_left" method="post">
+          <input type="submit" value="Left"></input>
+        </form>
+        <form action = "/turn_right" method="post">
+          <input type="submit" value="Right"></input>
+        </form>
         <form action = "/step_rate" method="post">
           <input type="number" name="step_rate" value="#{step_rate}"></input>
           <input type="submit" value="Step rate"></input>
-        </form>
-        <form action = "/low_gear" method="post">
-        <input type="submit" value="low gear"></input>
-        </form>
-        <form action = "/high_gear" method="post">
-        <input type="submit" value="high gear"></input>
         </form>
       </body>
     </html>
