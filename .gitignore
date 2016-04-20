@@ -7,3 +7,4 @@ _images
 rel/nerves_system_libs
 rel/saxophone
 config/config.secret.exs
+rel/vm.args

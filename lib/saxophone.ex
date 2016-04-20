@@ -7,7 +7,6 @@ defmodule Saxophone.Supervisor do
   @slackbot_token  Application.get_env(:saxophone, :slackbot_token)
   @ethernet_retry_seconds Application.get_env(:saxophone, :ethernet_retry_interval_seconds)
 
-  @stepper_pins Application.get_env(:saxophone, :steppers)
 
   def start_link do
     Supervisor.start_link(__MODULE__, [])

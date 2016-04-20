@@ -3,6 +3,8 @@ defmodule Saxophone.Router do
   plug Plug.Parsers, parsers: [:urlencoded]
   alias Saxophone.{StepperMotor, Locomotion, Saxophonist}
 
+  @compiled_at :calendar.universal_time
+
   plug :match
   plug :dispatch
 
@@ -79,6 +81,8 @@ defmodule Saxophone.Router do
         <meta name="viewport" content="width=device-width, initial-scale=1">
       </head>
       <body>
+        <a href="/">Home</a>
+        <p>Compiled at #{@compiled_at |> inspect}</p>
         <p>#{message}</p>
         <form action = "/play_sax" method="post">
           <input type="submit" value="Play Sax!"></input>
