@@ -2,7 +2,7 @@ defmodule Saxophone.StepperMotor do
   use GenServer
   alias Saxophone.StepperMotor
 
-  defstruct pins: [], direction: :neutral, position: 0, step_millis: 100, timer_ref: nil, gear: :low
+  defstruct pins: [], direction: :neutral, position: 0, step_millis: 10, timer_ref: nil, gear: :low
 
   @position_pin_values [
     [0, 0, 0, 1],
