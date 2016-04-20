@@ -20,7 +20,9 @@ defmodule Saxophone.Supervisor do
                                          :eth0, [], [name: :ethernet_manager]] ),
       worker(Gpio, [@led_pin, :output, [name: :led]]),
       worker(Saxophone.Saxophonist, [@sax_pin, @sax_toggle_time, [name: :saxophonist]]),
-      worker(Saxophone.StepperMotor, [@stepper_pins[:right], [name: :right_stepper]])
+      worker(Saxophone.StepperMotor, [@stepper_pins[:right], [name: :right_stepper]], id: :left),
+      worker(Saxophone.StepperMotor, [@stepper_pins[:left], [name: :left_stepper]], id: :right),
+      worker(Saxophone.Locomotion, []),
       # worker(Saxophone.SlackBot, [@slackbot_token])
       ]
     supervise(children, strategy: :one_for_one)

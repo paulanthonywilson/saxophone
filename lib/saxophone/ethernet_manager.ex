@@ -26,7 +26,7 @@ defmodule Saxophone.EthernetManager do
     {:noreply, status}
   end
 
-  def handle_info({:EXIT, _pid, reason}, status) do
+  def handle_info({:EXIT, _pid, _reason}, status) do
     {:noreply, status}
   end
 
