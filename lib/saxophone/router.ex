@@ -74,6 +74,7 @@ defmodule Saxophone.Router do
 
   defp web_page(message) do
     step_rate = (:right_stepper |> StepperMotor.state).step_millis
+    now = :erlang.universaltime
     """
     <html>
       <head>
@@ -82,7 +83,8 @@ defmodule Saxophone.Router do
       </head>
       <body>
         <a href="/">Home</a>
-        <p>Compiled at #{@compiled_at |> inspect}</p>
+        <p>Page loaded at #{now |> format_date_time}</p>
+        <p>Compiled at #{@compiled_at |> format_date_time}</p>
         <p>#{message}</p>
         <form action = "/play_sax" method="post">
           <input type="submit" value="Play Sax!"></input>
@@ -117,4 +119,22 @@ defmodule Saxophone.Router do
     </html>
     """
   end
+
+
+  defp format_date_time({{year, month, day}, {hour, minute, second}}) do
+    "#{hour}:#{minute}:#{second} on #{day} #{short_word_month(month)} #{year}"
+  end
+
+  defp short_word_month(1), do: "Jan"
+  defp short_word_month(2), do: "Feb"
+  defp short_word_month(3), do: "Mar"
+  defp short_word_month(4), do: "Apr"
+  defp short_word_month(5), do: "May"
+  defp short_word_month(6), do: "Jun"
+  defp short_word_month(7), do: "Jul"
+  defp short_word_month(8), do: "Aug"
+  defp short_word_month(9), do: "Sep"
+  defp short_word_month(10), do: "Oct"
+  defp short_word_month(11), do: "Nov"
+  defp short_word_month(12), do: "Dec"
 end
