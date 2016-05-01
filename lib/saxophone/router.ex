@@ -32,6 +32,16 @@ defmodule Saxophone.Router do
     send_resp(conn, 200, "Baker Street, it is not." |> web_page)
   end
 
+  post "play_guitar" do
+    :ok = Saxophonist.play(:guitarist)
+    send_resp(conn, 200, "Purple Haze, it is not." |> web_page)
+  end
+
+  post "play_all" do
+    :ok = Saxophonist.play(:saxophonist)
+    :ok = Saxophonist.play(:guitarist)
+    send_resp(conn, 200, "Make it stop!" |> web_page)
+  end
 
   post "forward" do
     Locomotion.forward
@@ -88,6 +98,12 @@ defmodule Saxophone.Router do
         <p>#{message}</p>
         <form action = "/play_sax" method="post">
           <input type="submit" value="Play Sax!"></input>
+        </form>
+        <form action = "/play_guitar" method="post">
+          <input type="submit" value="Play Guitar!"></input>
+        </form>
+        <form action = "/play_all" method="post">
+          <input type="submit" value="Full cacophony!"></input>
         </form>
         <form action = "/light_on" method="post">
           <input type="submit" value="Turn light on"></input>
