@@ -14,8 +14,8 @@ defmodule Saxophone.Mixfile do
      deps_path: "deps/#{@target}",
      build_path: "_build/#{@target}",
      config_path: "config/#{@target}/config.exs",
-     aliases: aliases,
-     deps: deps ++ system(@target)]
+     aliases: aliases(Mix.env),
+     deps: deps ++ system(@target, Mix.env)]
   end
 
   def application do
@@ -24,7 +24,8 @@ defmodule Saxophone.Mixfile do
   end
 
   defp deps do
-    [{:nerves, github: "nerves-project/nerves", branch: "mix"},
+    [
+      {:nerves, github: "nerves-project/nerves", branch: "mix"},
      {:cowboy, "~> 1.0.4"},
      {:plug, "~> 1.1.3"},
      {:elixir_ale, "~> 0.5.0" ,only: [:prod]},
@@ -42,12 +43,15 @@ defmodule Saxophone.Mixfile do
     end |> IO.inspect
   end
 
-  def system("rpi2") do
+  def system("rpi2", :prod) do
     [{:nerves_system_rpi2, github: "nerves-project/nerves_system_rpi2"}]
   end
+  def system(_, _), do: []
 
-  def aliases do
+
+  def aliases(:prod) do
     ["deps.precompile": ["nerves.precompile", "deps.precompile"],
      "deps.loadpaths":  ["deps.loadpaths", "nerves.loadpaths"]]
   end
+  def aliases(_), do: []
 end
