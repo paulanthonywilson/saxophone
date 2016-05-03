@@ -20,7 +20,6 @@ defmodule StepperMotorTest do
   end
 
   test "setting_gear", %{pid: pid} do
-    state = pid |> StepperMotor.state
     pid |> StepperMotor.set_high_gear
     assert StepperMotor.state(pid).gear == :high
     pid |> StepperMotor.set_low_gear
@@ -98,6 +97,7 @@ defmodule StepperMotorTest do
   end
 
   test "cycling forward", %{pid: pid} do
+    pid |> StepperMotor.set_step_rate(999999999999)
     pid |> StepperMotor.set_direction(:forward)
     (1..7) |> Enum.each(fn i ->
       send(pid, :step)
@@ -115,6 +115,7 @@ defmodule StepperMotorTest do
 
 
   test "cycling back", %{pid: pid} do
+    pid |> StepperMotor.set_step_rate(999999999999)
     pid |> StepperMotor.set_direction(:back)
     (7..0) |> Enum.each(fn i ->
       send(pid, :step)
@@ -127,6 +128,7 @@ defmodule StepperMotorTest do
   end
 
   test "cycling forward in high", %{pid: pid} do
+    pid |> StepperMotor.set_step_rate(999999999999)
     pid |> StepperMotor.set_high_gear
     pid |> StepperMotor.set_direction(:forward)
     [2, 4, 6, 0] |> Enum.each(fn i ->
@@ -137,6 +139,7 @@ defmodule StepperMotorTest do
   end
 
   test "cycling back in high", %{pid: pid} do
+    pid |> StepperMotor.set_step_rate(999999999999)
     pid |> StepperMotor.set_high_gear
     pid |> StepperMotor.set_direction(:back)
     [6, 4, 2, 0, 6] |> Enum.each(fn i ->
