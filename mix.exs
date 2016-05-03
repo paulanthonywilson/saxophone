@@ -1,13 +1,21 @@
 defmodule Saxophone.Mixfile do
   use Mix.Project
 
+  @target System.get_env("NERVES_TARGET") || "rpi2"
+
   def project do
     [app: :saxophone,
-     version: "0.0.2",
-     elixir: "~> 1.2.3",
+     version: "0.1.0",
+     elixir: "~> 1.2.4",
+     archives: [nerves_bootstrap: "~> 0.1"],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     target: @target,
+     deps_path: "deps/#{@target}",
+     build_path: "_build/#{@target}",
+     config_path: "config/#{@target}/config.exs",
+     aliases: aliases,
+     deps: deps ++ system(@target)]
   end
 
   def application do
@@ -16,20 +24,30 @@ defmodule Saxophone.Mixfile do
   end
 
   defp deps do
-    [{:cowboy, "~> 1.0.4"},
+    [{:nerves, github: "nerves-project/nerves", branch: "mix"},
+     {:cowboy, "~> 1.0.4"},
      {:plug, "~> 1.1.3"},
      {:elixir_ale, "~> 0.5.0" ,only: [:prod]},
      {:nerves_networking, github: "nerves-project/nerves_networking", only: :prod},
      {:websocket_client, github: "jeremyong/websocket_client"},
      {:slacker,  "~> 0.0.2"},
-     {:exrm, "~> 1.0.3"}]
+     ]
   end
 
   defp applications do
-    general_apps = [:logger, :cowboy, :plug, :slacker, :websocket_client, :ssl]
+    general_apps = [:logger, :cowboy, :plug, :slacker, :websocket_client, :ssl, :crypto]
     case Mix.env do
-      :prod -> [:nerves_networking, :elixir_ale | general_apps]
+      :prod -> [:nerves, :nerves_networking, :elixir_ale | general_apps]
       _ -> general_apps
     end |> IO.inspect
+  end
+
+  def system("rpi2") do
+    [{:nerves_system_rpi2, github: "nerves-project/nerves_system_rpi2"}]
+  end
+
+  def aliases do
+    ["deps.precompile": ["nerves.precompile", "deps.precompile"],
+     "deps.loadpaths":  ["deps.loadpaths", "nerves.loadpaths"]]
   end
 end
