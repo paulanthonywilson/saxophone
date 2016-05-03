@@ -5,7 +5,10 @@ defmodule Saxophone.Saxophonist do
 
   The play button is modified with a soldering iron, so that if properly wired up,
   the little fellow can be made to play by toggling a Gpio pin to high for a
-  few moments
+  few moments.
+
+  This is now also confirmed to work with guitarists. We don't really know about
+  drummers yet, but we can speculate.
   """
 
   def start_link(pin, toggle_time, opts \\ []) do
