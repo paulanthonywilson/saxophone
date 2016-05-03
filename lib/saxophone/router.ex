@@ -138,7 +138,7 @@ defmodule Saxophone.Router do
 
 
   defp format_date_time({{year, month, day}, {hour, minute, second}}) do
-    "#{hour}:#{minute}:#{second} on #{day} #{short_word_month(month)} #{year}"
+    "#{hour}:#{minute}:#{second} UTC on #{day} #{short_word_month(month)} #{year}"
   end
 
   defp short_word_month(1), do: "Jan"
