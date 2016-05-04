@@ -29,7 +29,7 @@ defmodule Saxophone.Supervisor do
       worker(Saxophone.Saxophonist, [@guitar_pin, @guitar_toggle_time, [name: :guitarist]], id: :guitarist),
       supervisor(Saxophone.LocomotionSupervisor, []),
       worker(Saxophone.Ntp, []),
-      # worker(Saxophone.SlackBot, [@slackbot_token])
+      worker(Saxophone.SlackBot, [@slackbot_token]),
       ]
     supervise(children, strategy: :one_for_one)
   end
