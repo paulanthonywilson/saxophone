@@ -1,10 +1,12 @@
 defmodule Saxophone.AlwaysRestartSupervisor do
   use Supervisor
+  alias Saxophone.GenServerRestarter
 
-  @ethernet_retry_seconds Application.get_env(:saxophone, :ethernet_retry_interval_seconds)
+  @ethernet_retry_time Application.get_env(:saxophone, :ethernet_retry_interval_seconds) |> :timer.seconds
   @ethernet_opts Application.get_env(:saxophone, :ethernet_opts) || []
+
   @slackbot_token  Application.get_env(:saxophone, :slackbot_token)
-  @slackbot_retry_seconds  Application.get_env(:saxophone, :slackbot_retry_seconds)
+  @slackbot_retry_time Application.get_env(:saxophone, :slackbot_retry_seconds) |> :timer.seconds
 
   @name __MODULE__
 
@@ -14,18 +16,20 @@ defmodule Saxophone.AlwaysRestartSupervisor do
 
   def init(_) do
     children = [
-      worker(Saxophone.GenServerRestarter,
-             [:timer.seconds(@ethernet_retry_seconds),
+      worker(GenServerRestarter,
+             [@ethernet_retry_time,
               [name: :ethernet_manager],
               Nerves.Networking,
-              [:eth0, @ethernet_opts],
-              [function: :setup]], id: :ethernet_manager),
-      worker(Saxophone.GenServerRestarter,
-             [:timer.seconds(@slackbot_retry_seconds),
+              :setup,
+              [:eth0, @ethernet_opts]],
+             id: :ethernet_manager),
+      worker(GenServerRestarter,
+             [@slackbot_retry_time,
               [name: :slackbot_manager],
               Saxophone.SlackBot,
-              [@slackbot_token],
-             [name: :slackbot]], id: :slackbot_manager)
+              :start_link,
+              [@slackbot_token]],
+             id: :slackbot_manager)
     ]
 
     supervise(children, strategy: :one_for_one)

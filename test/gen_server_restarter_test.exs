@@ -5,6 +5,10 @@ defmodule Saxophone.GenServerRestarterTest do
   defmodule AGenServer do
     use GenServer
 
+    def start_link(arg1, arg2) do
+      GenServer.start_link(__MODULE__, {arg1, arg2}, name: :a_gen_server)
+    end
+
     def get_status do
       :a_gen_server |> GenServer.call(:get_status)
     end
@@ -19,17 +23,14 @@ defmodule Saxophone.GenServerRestarterTest do
   end
 
   setup do
-    {:ok, pid} = Saxophone.GenServerRestarter.start_link(:timer.seconds(0),
-                                                         [],
-                                                         AGenServer,
-                                                         [:a, :b], name: :a_gen_server)
+    {:ok, _pid} = Saxophone.GenServerRestarter.start_link(:timer.seconds(0), [], AGenServer, :start_link, [:a, :b])
     :timer.sleep(1)
-    {:ok, %{pid: pid}}
+    :ok
   end
 
   test "starts the GenServer with the args" do
     assert Process.whereis(:a_gen_server)
-    assert AGenServer.get_status == [:a, :b]
+    assert AGenServer.get_status == {:a, :b}
   end
 
   test "kill and restart" do
