@@ -1,6 +1,6 @@
 defmodule Saxophone.SlackBot do
-  use Slacker
   use Slacker.Matcher
+  use Slacker
 
   match ~r/play sax/i, :play_sax
 
@@ -10,8 +10,8 @@ defmodule Saxophone.SlackBot do
     Saxophone.Saxophonist.play(:saxophonist)
   end
 
-  def handle_cast({:handle_incoming, event, message}, state) do
-    IO.inspect {:incoming, event, message}
-    {:noreply, state}
-  end
+  # def handle_cast({:handle_incoming, event, message}, state) do
+  #   IO.inspect {:incoming, event, message}
+  #   {:noreply, state}
+  # end
 end

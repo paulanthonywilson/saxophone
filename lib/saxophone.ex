@@ -9,6 +9,7 @@ defmodule Saxophone.Supervisor do
   @guitar_pin Application.get_env(:saxophone, :guitarist)[:pin]
   @guitar_toggle_time Application.get_env(:saxophone, :guitarist)[:toggle_time]
 
+
   def start_link do
     Supervisor.start_link(__MODULE__, [])
   end
@@ -16,11 +17,11 @@ defmodule Saxophone.Supervisor do
   def init([]) do
     children = [
       worker(Saxophone.Router, []),
-      worker(Saxophone.NetworkManager, []),
       worker(Gpio, [@led_pin, :output, [name: :led]]),
       worker(Saxophone.Saxophonist, [@sax_pin, @sax_toggle_time, [name: :saxophonist]], id: :saxophonist),
       worker(Saxophone.Saxophonist, [@guitar_pin, @guitar_toggle_time, [name: :guitarist]], id: :guitarist),
       supervisor(Saxophone.LocomotionSupervisor, []),
+      supervisor(Saxophone.AlwaysRestartSupervisor, []),
       worker(Saxophone.Ntp, []),
       ]
     supervise(children, strategy: :one_for_one)
