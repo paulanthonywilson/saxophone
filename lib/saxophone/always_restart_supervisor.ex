@@ -17,18 +17,19 @@ defmodule Saxophone.AlwaysRestartSupervisor do
   def init(_) do
     children = [
       worker(GenServerRestarter,
-             [@ethernet_retry_time,
-              [name: :ethernet_manager],
-              Nerves.Networking,
+             [Nerves.Networking,
               :setup,
-              [:eth0, @ethernet_opts]],
+              [:eth0, @ethernet_opts],
+              @ethernet_retry_time,
+              [name: :ethernet_manager]],
              id: :ethernet_manager),
       worker(GenServerRestarter,
-             [@slackbot_retry_time,
-              [name: :slackbot_manager],
-              Saxophone.SlackBot,
+             [Saxophone.SlackBot,
               :start_link,
-              [@slackbot_token]],
+              [@slackbot_token],
+              @slackbot_retry_time,
+              [name: :slackbot_manager],
+              :timer.seconds(10)],
              id: :slackbot_manager)
     ]
 

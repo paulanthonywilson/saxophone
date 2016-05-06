@@ -23,7 +23,10 @@ defmodule Saxophone.GenServerRestarterTest do
   end
 
   setup do
-    {:ok, _pid} = Saxophone.GenServerRestarter.start_link(:timer.seconds(0), [], AGenServer, :start_link, [:a, :b])
+    {:ok, _pid} = Saxophone.GenServerRestarter.start_link(AGenServer,
+                                                          :start_link,
+                                                          [:a, :b],
+                                                          0)
     :timer.sleep(1)
     :ok
   end
