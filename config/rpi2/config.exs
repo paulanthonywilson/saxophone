@@ -17,7 +17,11 @@ config :saxophone, :steppers, [right: [21, 20, 16, 12],
 # config :saxophone, :ethernet_opts, mode: "static", ip: "192.168.162.200", router: "192.168.162.1", mask: "16", subnet: "255.255.255.0", dns: "8.8.8.8 8.8.4.4"
 
 # home
-config :saxophone, :ethernet_opts, mode: "static", ip: "10.0.0.59", router: "10.0.0.1", mask: "16", subnet: "255.255.255.0", dns: "8.8.8.8 8.8.4.4"
+# config :saxophone, :ethernet_opts, mode: "static", ip: "10.0.0.59", router: "10.0.0.1", mask: "16", subnet: "255.255.255.0", dns: "8.8.8.8 8.8.4.4"
+
+# Dan's router
+
+config :saxophone, :ethernet_opts, mode: "static", ip: "192.168.22.5", router: "192.168.22.1", mask: "16", subnet: "255.255.255.0", dns: "8.8.8.8 8.8.4.4"
 
 
 import_config "config.secret.exs"
