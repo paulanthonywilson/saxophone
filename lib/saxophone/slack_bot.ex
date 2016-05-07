@@ -6,7 +6,7 @@ defmodule Saxophone.SlackBot do
 
   match ~r/play sax/i, :play_sax
   match ~r/play guitar/i, :play_guitar
-  match ~r/^sax move\s+(forward|back|left|right)/i, :move
+  match ~r/^sax (forward|back|left|right|reverse)/i, :move
   match ~r/^sax stop/i, :stop
   match ~r/^sax step\s+(\d+)/i, :step_rate
 
@@ -25,7 +25,8 @@ defmodule Saxophone.SlackBot do
     say self, message["channel"], "Moving #{direction}"
     case direction do
       "forward" -> Locomotion.forward
-      "back" -> Locomotion.back
+      "back" -> Locomotion.reverse
+      "reverse" -> Locomotion.reverse
       "left" -> Locomotion.turn_left
       "right" -> Locomotion.turn_right
     end
