@@ -41,20 +41,13 @@ defmodule Saxophone.Ntp do
 
   ## Callbacks
   def init(_) do
-    send(self, :sync_the_time)
+    true = do_sync
+    schedule_next_sync(true)
     {:ok, %Saxophone.Ntp{}}
   end
 
   def handle_info(:sync_the_time, state) do
-    success = case :os.cmd(@command) do
-                [] ->
-                  Logger.info "Successfully set the time over with NTP"
-                  true
-                err ->
-                  Logger.error "Failed to set the time with NTP: #{err |> inspect}"
-                  false
-    end
-
+    success = do_sync
     schedule_next_sync(success)
 
     {:noreply, %{state | time_set: success}}
@@ -66,6 +59,17 @@ defmodule Saxophone.Ntp do
 
   defp schedule_next_sync(last_sync_successful) do
     Process.send_after(self, :sync_the_time, next_sync_time(last_sync_successful))
+  end
+
+  defp do_sync do
+    case :os.cmd(@command) do
+      [] ->
+        Logger.info "Successfully set the time over with NTP"
+        true
+      err ->
+        Logger.error "Failed to set the time with NTP: #{err |> inspect}"
+        false
+    end
   end
 
   defp next_sync_time(_last_sync_successful = true), do: :timer.minutes(30)

@@ -88,13 +88,11 @@ defmodule Saxophone.Router do
     """
     <html>
       <head>
-        <title>Led thingy</title>
+        <title>Sax Control</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
       </head>
       <body>
         <a href="/">Home</a>
-        <p>Page loaded at #{now |> format_date_time}</p>
-        <p>Compiled at #{@compiled_at |> format_date_time}</p>
         <p>#{message}</p>
         <form action = "/play_sax" method="post">
           <input type="submit" value="Play Sax!"></input>
@@ -131,6 +129,8 @@ defmodule Saxophone.Router do
           <input type="number" name="step_rate" value="#{step_rate}"></input>
           <input type="submit" value="Step rate"></input>
         </form>
+        <p>Page loaded at #{now |> format_date_time}</p>
+        <p>Compiled at #{@compiled_at |> format_date_time}</p>
       </body>
     </html>
     """

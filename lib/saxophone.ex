@@ -9,6 +9,7 @@ defmodule Saxophone.Supervisor do
   @guitar_pin Application.get_env(:saxophone, :guitarist)[:pin]
   @guitar_toggle_time Application.get_env(:saxophone, :guitarist)[:toggle_time]
 
+  @ethernet_retry_time Application.get_env(:saxophone, :ethernet_retry_interval_seconds) |> :timer.seconds
 
   def start_link do
     Supervisor.start_link(__MODULE__, [])
@@ -21,8 +22,8 @@ defmodule Saxophone.Supervisor do
       worker(Saxophone.Saxophonist, [@sax_pin, @sax_toggle_time, [name: :saxophonist]], id: :saxophonist),
       worker(Saxophone.Saxophonist, [@guitar_pin, @guitar_toggle_time, [name: :guitarist]], id: :guitarist),
       supervisor(Saxophone.LocomotionSupervisor, []),
-      supervisor(Saxophone.AlwaysRestartSupervisor, []),
-      worker(Saxophone.Ntp, []),
+      worker(Saxophone.GenServerRestarter, [Saxophone.NetworkingSupervisor, :start_link, [],
+             @ethernet_retry_time, [name: :networking_manager]]),
       ]
     supervise(children, strategy: :one_for_one)
   end

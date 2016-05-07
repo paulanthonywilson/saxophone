@@ -12,7 +12,6 @@ defmodule Saxophone.Locomotion do
     GenServer.call(@name, {:set_step_rate, step_rate})
   end
 
-
   def forward do
     GenServer.call(@name, :forward)
   end
@@ -56,7 +55,6 @@ defmodule Saxophone.Locomotion do
     set_direction(:forward, :back)
     {:reply, :ok, state}
   end
-
 
   def handle_call(:stop, _from, state) do
     set_direction(:neutral, :neutral)
