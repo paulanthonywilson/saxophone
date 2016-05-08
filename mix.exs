@@ -36,7 +36,7 @@ defmodule Saxophone.Mixfile do
   end
 
   defp applications do
-    general_apps = [:logger, :cowboy, :plug, :slacker, :websocket_client, :ssl, :crypto, :runtime_tools]
+    general_apps = [:logger, :cowboy, :plug, :slacker, :websocket_client, :ssl, :crypto, :runtime_tools, :porcelain]
     case Mix.env do
       :prod -> [:nerves, :nerves_networking, :elixir_ale | general_apps]
       _ -> general_apps

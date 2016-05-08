@@ -2,6 +2,8 @@ defmodule Saxophone.Ntp do
   require Logger
   use GenServer
 
+  alias Porcelain.Result
+
   @moduledoc """
   Periodically run NTP
 
@@ -22,9 +24,9 @@ defmodule Saxophone.Ntp do
   @name __MODULE__
 
   if :prod == Mix.env do
-    @command 'ntpd -n -q -p time.euro.apple.com'
+    @command "ntpd -n -q -p time.euro.apple.com"
   else
-    @command 'cat /dev/null'
+    @command "cat /dev/null"
   end
 
 
@@ -62,12 +64,12 @@ defmodule Saxophone.Ntp do
   end
 
   defp do_sync do
-    case :os.cmd(@command) do
-      [] ->
+    case Porcelain.shell(@command) do
+      %Result{status: 0} ->
         Logger.info "Successfully set the time over with NTP"
         true
-      err ->
-        Logger.error "Failed to set the time with NTP: #{err |> inspect}"
+      %Result{out: out, status: status} ->
+        Logger.error "Failed to set the time with NTP:\n#{out}\n#{status |> inspect}"
         false
     end
   end

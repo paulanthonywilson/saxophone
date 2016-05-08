@@ -78,8 +78,12 @@ defmodule Saxophone.Router do
     send_resp(conn, 200, "Right!" |> web_page)
   end
 
+  get "/yada" do
+    send_file(conn, 200, "README.md")
+  end
+
   match _ do
-    send_resp(conn, 404, "Not found")
+    send_resp(conn, 404, "<p>Not found.</p><hr/><p>#{conn |> inspect}</p>")
   end
 
   defp web_page(message) do
@@ -103,6 +107,7 @@ defmodule Saxophone.Router do
         <form action = "/play_all" method="post">
           <input type="submit" value="Full cacophony!"></input>
         </form>
+        <hr/>
         <form action = "/light_on" method="post">
           <input type="submit" value="Turn light on"></input>
         </form>
@@ -129,6 +134,7 @@ defmodule Saxophone.Router do
           <input type="number" name="step_rate" value="#{step_rate}"></input>
           <input type="submit" value="Step rate"></input>
         </form>
+        <hr/>
         <p>Page loaded at #{now |> format_date_time}</p>
         <p>Compiled at #{@compiled_at |> format_date_time}</p>
       </body>

@@ -14,6 +14,8 @@ config :saxophone, :slackbot_start_delay_seconds, 3
 config :saxophone, :steppers, [right: [21, 20, 16, 12],
                                left: [26, 19, 13, 6]]
 
+config :porcelain, driver: Porcelain.Driver.Basic
+
 # office
 # config :saxophone, :ethernet_opts, mode: "static", ip: "192.168.162.200", router: "192.168.162.1", mask: "16", subnet: "255.255.255.0", dns: "8.8.8.8 8.8.4.4"
 
