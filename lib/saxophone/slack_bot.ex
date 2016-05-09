@@ -11,7 +11,7 @@ defmodule Saxophone.SlackBot do
   match ~r/^sax step\s+(\d+)/i, :step_rate
 
   def play_sax(_pid, message) do
-    say self, message["channel"], "Oh, bugger off"
+    say self, message["channel"], "Oh yeah, the Jazz man cometh!"
     Saxophone.Saxophonist.play(:saxophonist)
   end
 
