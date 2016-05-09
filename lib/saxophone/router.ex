@@ -17,6 +17,10 @@ defmodule Saxophone.Router do
     send_resp(conn, 200, "Hello" |> web_page)
   end
 
+  get "/saxophone.css" do
+    send_file(conn, 200, "lib/saxophone/web/saxophone.css")
+  end
+
   post "/light_on" do
     :ok = Gpio.write(:led, 1)
     send_resp(conn, 200, "The light is on!" |> web_page)
@@ -94,49 +98,127 @@ defmodule Saxophone.Router do
       <head>
         <title>Sax Control</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/saxophone.css") %>">
       </head>
-      <body>
-        <a href="/">Home</a>
-        <p>#{message}</p>
-        <form action = "/play_sax" method="post">
-          <input type="submit" value="Play Sax!"></input>
-        </form>
-        <form action = "/play_guitar" method="post">
-          <input type="submit" value="Play Guitar!"></input>
-        </form>
-        <form action = "/play_all" method="post">
-          <input type="submit" value="Full cacophony!"></input>
-        </form>
-        <hr/>
-        <form action = "/light_on" method="post">
-          <input type="submit" value="Turn light on"></input>
-        </form>
-        <form action = "/light_off" method="post">
-          <input type="submit" value="Turn light off"></input>
-        </form>
-        <hr/>
-        <form action = "/forward" method="post">
-          <input type="submit" value="forward"></input>
-        </form>
-        <form action = "/back" method="post">
-          <input type="submit" value="back"></input>
-        </form>
-        <form action = "/stop" method="post">
-          <input type="submit" value="stop"></input>
-        </form>
-        <form action = "/turn_left" method="post">
-          <input type="submit" value="Left"></input>
-        </form>
-        <form action = "/turn_right" method="post">
-          <input type="submit" value="Right"></input>
-        </form>
-        <form action = "/step_rate" method="post">
-          <input type="number" name="step_rate" value="#{step_rate}"></input>
-          <input type="submit" value="Step rate"></input>
-        </form>
-        <hr/>
-        <p>Page loaded at #{now |> format_date_time}</p>
-        <p>Compiled at #{@compiled_at |> format_date_time}</p>
+  <body>
+    <div class="controller">
+      <div class="controller__right-controls">
+        <table class="controller__music">
+          <tr>
+            <td colspan="3">
+              <h2 class="controller__title"><i class="fa fa-music"></i> Music</h2>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <form action = "/play_sax" method="post">
+                <input type="submit" value="Play Sax!"></input>
+              </form>
+            </td>
+            <td>
+              <form action = "/play_guitar" method="post">
+                <input type="submit" value="Play Guitar!"></input>
+              </form>
+            </td>
+            <td>
+              <form action = "/play_all" method="post">
+                <input type="submit" value="Full cacophony!"></input>
+              </form>
+            </td>
+          </tr>
+        </table>
+
+        <table class="controller__lights">
+          <tr>
+            <td colspan="2">
+              <h2 class="controller__title"><i class="fa fa-lightbulb-o"></i> Lights</h2>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <form action = "/light_on" method="post">
+                <input type="submit" value="on"></input>
+              </form>
+            </td>
+            <td>
+              <form action = "/light_off" method="post">
+                <input type="submit" value="off"></input>
+              </form>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+      <div class="controller__left-controls">
+        <table>
+          <tr>
+            <td colspan="3">
+              <h2 class="controller__title">
+                <i class="fa fa-arrows"></i> Movement</h2>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>
+              <form action = "/forward" method="post">
+                <button type="submit">
+                  <i class="fa fa-arrow-up">^</i>
+                </button>
+              </form>
+            </td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>
+              <form action = "/turn_left" method="post">
+                <button type="submit">
+                  <i class="fa fa-arrow-left"><</i>
+                </button>
+              </form>
+            </td>
+            <td>
+              <form action = "/stop" method="post">
+                <button type="submit">
+                  <i class="fa fa-ban">!</i>
+                </button>
+              </form>
+            </td>
+            <td>
+              <form action = "/turn_right" method="post">
+                <button type="submit">
+                  <i class="fa fa-arrow-right">></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>
+              <form action = "/back" method="post">
+                <button type="submit">
+                  <i class="fa fa-arrow-down">V</i>
+                </button>
+              </form>
+            </td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <form action = "/step_rate" method="post" class="controller__steps">
+                <input type="number" name="step_rate" value="#{step_rate}"></input>
+                <input type="submit" value="Step rate"></input>
+              </form>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="home-link">
+      <a href="/">Home</a>
+    </div>
+    <p class="message">#{message}</p>
+    <p>Page loaded at #{now |> format_date_time}</p>
+    <p>Compiled at #{@compiled_at |> format_date_time}</p>
       </body>
     </html>
     """
