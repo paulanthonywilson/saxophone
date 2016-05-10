@@ -17,6 +17,12 @@ body {
     color: #AAA;
 }
 
+.footer {
+    display: table;
+    padding: 1em;
+    margin: 0 auto;
+}
+
 p.message {
     color: #AAA;
     display: table;

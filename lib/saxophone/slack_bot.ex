@@ -20,7 +20,6 @@ defmodule Saxophone.SlackBot do
     Saxophone.Saxophonist.play(:guitarist)
   end
 
-
   def move(_pid, message, direction) do
     say self, message["channel"], "Moving #{direction}"
     case direction do
@@ -42,10 +41,4 @@ defmodule Saxophone.SlackBot do
     say self, message["channel"], "Stepping at rate #{rate_number}"
     Locomotion.set_step_rate rate_number
   end
-
-
-  # def handle_cast({:handle_incoming, event, message}, state) do
-  #   IO.inspect {:incoming, event, message}
-  #   {:noreply, state}
-  # end
 end

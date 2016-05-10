@@ -135,8 +135,10 @@ defmodule Saxophone.Web.Html do
       <a href="/">Home</a>
     </div>
     <p class="message">#{message}</p>
-    <p>Page loaded at #{now |> format_date_time}</p>
-    <p>Compiled at #{@compiled_at |> format_date_time}</p>
+      <div class = "footer">
+      <p>Page loaded at #{now |> format_date_time}</p>
+      <p>Compiled at #{@compiled_at |> format_date_time}</p>
+    </div>
       </body>
     </html>
     """
