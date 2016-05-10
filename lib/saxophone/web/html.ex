@@ -1,96 +1,14 @@
-defmodule Saxophone.Router do
-  use Plug.Router
-  plug Plug.Parsers, parsers: [:urlencoded]
-  alias Saxophone.{StepperMotor, Locomotion, Saxophonist}
-
+defmodule Saxophone.Web.Html do
   @compiled_at :calendar.universal_time
+  @css File.read! "lib/saxophone/web/saxophone.css"
 
-  plug :match
-  plug :dispatch
+  alias Saxophone.{StepperMotor}
 
-  def start_link do
-    cowboy_options = Application.get_env(:saxophone, :cowboy_options)
-    {:ok, _} = Plug.Adapters.Cowboy.http __MODULE__, [], cowboy_options
+  def css do
+    @css
   end
 
-  get "/" do
-    send_resp(conn, 200, "Hello" |> web_page)
-  end
-
-  get "/saxophone.css" do
-    send_file(conn, 200, "lib/saxophone/web/saxophone.css")
-  end
-
-  post "/light_on" do
-    :ok = Gpio.write(:led, 1)
-    send_resp(conn, 200, "The light is on!" |> web_page)
-  end
-
-  post "/light_off" do
-    :ok = Gpio.write(:led, 0)
-    send_resp(conn, 200, "The light is off!" |> web_page)
-  end
-
-  post "play_sax" do
-    :ok = Saxophonist.play(:saxophonist)
-    send_resp(conn, 200, "Baker Street, it is not." |> web_page)
-  end
-
-  post "play_guitar" do
-    :ok = Saxophonist.play(:guitarist)
-    send_resp(conn, 200, "Purple Haze, it is not." |> web_page)
-  end
-
-  post "play_all" do
-    :ok = Saxophonist.play(:saxophonist)
-    :ok = Saxophonist.play(:guitarist)
-    send_resp(conn, 200, "Make it stop!" |> web_page)
-  end
-
-  post "forward" do
-    Locomotion.forward
-    send_resp(conn, 200, "Forward!" |> web_page)
-  end
-
-
-  post "back" do
-    Locomotion.reverse
-    send_resp(conn, 200, "Back!" |> web_page)
-  end
-
-
-  post "stop" do
-    Locomotion.stop
-    send_resp(conn, 200, "Stopped!" |> web_page)
-  end
-
-
-  post "step_rate" do
-    step_rate = conn.params["step_rate"] |> String.to_integer
-    Locomotion.set_step_rate(step_rate)
-
-    send_resp(conn, 200, "Stepping at #{step_rate}" |> web_page)
-  end
-
-  post "turn_left" do
-    Locomotion.turn_left
-    send_resp(conn, 200, "Left!" |> web_page)
-  end
-
-  post "turn_right" do
-    Locomotion.turn_right
-    send_resp(conn, 200, "Right!" |> web_page)
-  end
-
-  get "/yada" do
-    send_file(conn, 200, "README.md")
-  end
-
-  match _ do
-    send_resp(conn, 404, "<p>Not found.</p><hr/><p>#{conn |> inspect}</p>")
-  end
-
-  defp web_page(message) do
+  def control_page(message) do
     step_rate = (:right_stepper |> StepperMotor.state).step_millis
     now = :erlang.universaltime
     """
@@ -162,7 +80,7 @@ defmodule Saxophone.Router do
             <td>
               <form action = "/forward" method="post">
                 <button type="submit">
-                  <i class="fa fa-arrow-up">^</i>
+                &utrif;
                 </button>
               </form>
             </td>
@@ -172,21 +90,21 @@ defmodule Saxophone.Router do
             <td>
               <form action = "/turn_left" method="post">
                 <button type="submit">
-                  <i class="fa fa-arrow-left"><</i>
+                &ltrif;
                 </button>
               </form>
             </td>
             <td>
               <form action = "/stop" method="post">
                 <button type="submit">
-                  <i class="fa fa-ban">!</i>
+                &otimes;
                 </button>
               </form>
             </td>
             <td>
               <form action = "/turn_right" method="post">
                 <button type="submit">
-                  <i class="fa fa-arrow-right">></i>
+                &rtrif;
                 </button>
               </form>
             </td>
@@ -196,7 +114,7 @@ defmodule Saxophone.Router do
             <td>
               <form action = "/back" method="post">
                 <button type="submit">
-                  <i class="fa fa-arrow-down">V</i>
+                &dtrif;
                 </button>
               </form>
             </td>

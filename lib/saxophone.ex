@@ -17,7 +17,7 @@ defmodule Saxophone.Supervisor do
 
   def init([]) do
     children = [
-      worker(Saxophone.Router, []),
+      worker(Saxophone.Web.Router, []),
       worker(Gpio, [@led_pin, :output, [name: :led]]),
       worker(Saxophone.Saxophonist, [@sax_pin, @sax_toggle_time, [name: :saxophonist]], id: :saxophonist),
       worker(Saxophone.Saxophonist, [@guitar_pin, @guitar_toggle_time, [name: :guitarist]], id: :guitarist),
