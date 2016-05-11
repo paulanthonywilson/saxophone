@@ -19,20 +19,17 @@ defmodule Saxophone.Mixfile do
   end
 
   def application do
-    [applications: applications,
-     mod: {Saxophone, {}}]
+    [applications: applications, mod: {Saxophone, {}}]
   end
 
   defp deps do
-    [
-      {:nerves, github: "nerves-project/nerves", branch: "mix"},
+    [{:nerves, github: "nerves-project/nerves", branch: "mix"},
      {:cowboy, "~> 1.0.4"},
      {:plug, "~> 1.1.3"},
      {:elixir_ale, "~> 0.5.0" ,only: [:prod]},
      {:nerves_networking, github: "nerves-project/nerves_networking", only: :prod},
      {:websocket_client, github: "jeremyong/websocket_client"},
-     {:slacker,  "~> 0.0.2"},
-     ]
+     {:slacker,  "~> 0.0.2"},]
   end
 
   defp applications do
