@@ -45,27 +45,6 @@ defmodule Saxophone.Web.Html do
             </td>
           </tr>
         </table>
-
-        <table class="controller__lights">
-          <tr>
-            <td colspan="2">
-              <h2 class="controller__title"><i class="fa fa-lightbulb-o"></i> Lights</h2>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <form action = "/light_on" method="post">
-                <input type="submit" value="on"></input>
-              </form>
-            </td>
-            <td>
-              <form action = "/light_off" method="post">
-                <input type="submit" value="off"></input>
-              </form>
-            </td>
-          </tr>
-        </table>
-
       </div>
       <div class="controller__left-controls">
         <table>
