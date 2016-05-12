@@ -81,6 +81,7 @@ defmodule StepperMotorTest do
   end
 
   test "stepping forward sets a new timer", %{pid: pid} do
+    pid |> StepperMotor.set_step_rate(999999999999)
     pid |> StepperMotor.set_direction(:forward)
     previous_timer_ref = StepperMotor.state(pid).timer_ref
 
