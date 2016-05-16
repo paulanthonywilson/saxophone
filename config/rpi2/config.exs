@@ -23,7 +23,7 @@ config :porcelain, driver: Porcelain.Driver.Basic
 
 # Dan's router
 
-config :saxophone, :ethernet_opts, mode: "static", ip: "192.168.22.5", router: "192.168.22.1", mask: "16", subnet: "255.255.255.0", dns: "8.8.8.8 8.8.4.4"
+# config :saxophone, :ethernet_opts, mode: "static", ip: "192.168.22.5", router: "192.168.22.1", mask: "16", subnet: "255.255.255.0", dns: "8.8.8.8 8.8.4.4"
 
 
 import_config "config.secret.exs"
