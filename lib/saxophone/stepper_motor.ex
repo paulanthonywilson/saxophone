@@ -36,8 +36,8 @@ defmodule Saxophone.StepperMotor do
   @doc """
   Set the step rate in milliseconds
   """
-  def set_step_rate(pid, step_rate) do
-    pid |> GenServer.call({:set_step_rate, step_rate})
+  def set_step_rate(pid, new_step_rate) do
+    pid |> GenServer.call({:set_step_rate, new_step_rate})
   end
 
   def state(pid) do
@@ -86,9 +86,9 @@ defmodule Saxophone.StepperMotor do
                                     step_millis: step_millis,
                                     position: position,
                                     gear: gear}) do
-    new_position = new_position(position, direction, step(gear))
+    next_position = new_position(position, direction, step(gear))
     @position_pin_values
-    |> Enum.at(new_position)
+    |> Enum.at(next_position)
     |> Enum.zip(pins)
     |> Enum.each(fn {value, pin} ->
       pin |> Gpio.write(value)
@@ -96,7 +96,7 @@ defmodule Saxophone.StepperMotor do
 
     timer_ref = schedule_next_step(direction, step_millis)
 
-    {:noreply, %{status | position: new_position, timer_ref: timer_ref}}
+    {:noreply, %{status | position: next_position, timer_ref: timer_ref}}
   end
 
   defp schedule_next_step(direction, step_millis, timer_ref) do
@@ -114,12 +114,13 @@ defmodule Saxophone.StepperMotor do
     position
   end
 
-  defp new_position(position, :forward, step) do
-    (position + step) |> rem(8)
+  @lint {~r/Refactor/, false}
+  defp new_position(position, :forward, current_step) do
+    (position + current_step) |> rem(8)
   end
 
-  defp new_position(position, :back, step) do
-    (8 + position - step) |> rem(8)
+  defp new_position(position, :back, current_step) do
+    (8 + position - current_step) |> rem(8)
   end
 
   defp step(:low), do: 1

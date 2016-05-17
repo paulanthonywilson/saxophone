@@ -1,4 +1,10 @@
 defmodule Saxophone.Locomotion do
+  @moduledoc """
+  The main interface for moving the robot. Interacts with the two stepper motors
+  to move the robot forward, back, left, right, stop, and set the rate at which
+  both motors turn.
+  """
+
   @name __MODULE__
   use GenServer
   alias Saxophone.StepperMotor

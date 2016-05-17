@@ -29,7 +29,8 @@ defmodule Saxophone.Mixfile do
      {:elixir_ale, "~> 0.5.0" ,only: [:prod]},
      {:nerves_networking, github: "nerves-project/nerves_networking", only: :prod},
      {:websocket_client, github: "jeremyong/websocket_client"},
-     {:slacker,  "~> 0.0.2"},]
+     {:slacker,  "~> 0.0.2"},
+     {:credo, "~> 0.3", only: [:dev, :test]}]
   end
 
   defp applications do

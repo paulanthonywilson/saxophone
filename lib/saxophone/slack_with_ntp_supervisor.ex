@@ -1,4 +1,11 @@
 defmodule Saxophone.SlackWithNtpSupervisor do
+  @moduledoc """
+  Supervise NTP and SlackBot. NTP should only fail on initialisation.
+
+  Uses `rest_for_one`. If NTP fails it will take down the SlackBot as well,
+  but not vice versa.
+  """
+
   use Supervisor
 
   @slackbot_token  Application.get_env(:saxophone, :slackbot_token)

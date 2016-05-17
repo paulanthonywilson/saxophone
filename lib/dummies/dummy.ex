@@ -33,9 +33,7 @@ if :prod != Mix.env do
     Stand in for Elixir Ale's Gpio in development mode
     """
 
-    defmodule State do
-      defstruct pin: 0, direction: nil, pin_states: []
-    end
+    defstruct pin: 0, direction: nil, pin_states: []
 
     def start_link(pin, direction, supplied_opts \\ nil) do
       opts = supplied_opts || [name: :"gpio_#{pin}"]
@@ -73,7 +71,7 @@ if :prod != Mix.env do
 
     # Genserver
     def init({pin, direction}) do
-      state = %State{pin: pin, direction: direction}
+      state = %Gpio{pin: pin, direction: direction}
       {:ok, state}
     end
 

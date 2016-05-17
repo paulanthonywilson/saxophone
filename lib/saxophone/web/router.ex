@@ -1,4 +1,10 @@
 defmodule Saxophone.Web.Router do
+  @moduledoc """
+  A Plug router that acts as an interface to control the robot. The
+  control page is displayed initially with `get /`. All state changing operations
+  are posts.
+  """
+
   use Plug.Router
   plug Plug.Parsers, parsers: [:urlencoded]
   alias Saxophone.{Locomotion, Saxophonist, Web.Html}

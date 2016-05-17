@@ -1,4 +1,8 @@
 defmodule Saxophone.Web.Html do
+  @moduledoc """
+  Provides the css and html for the Saxophone web control page. Used in Saxophone.Web.Router
+  """
+
   @compiled_at :calendar.universal_time
   @css File.read! "lib/saxophone/web/saxophone.css"
 

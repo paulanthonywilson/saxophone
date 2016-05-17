@@ -1,8 +1,12 @@
 defmodule Saxophone.SlackBot do
+  @moduledoc """
+  Controls the Saxophone via a Slack.
+  """
+
   use Slacker
   use Slacker.Matcher
 
-  alias Saxophone.Locomotion
+  alias Saxophone.{Locomotion, Saxophonist}
 
   match ~r/play sax/i, :play_sax
   match ~r/play guitar/i, :play_guitar
@@ -12,12 +16,12 @@ defmodule Saxophone.SlackBot do
 
   def play_sax(_pid, message) do
     say self, message["channel"], "Oh yeah, the Jazz man cometh!"
-    Saxophone.Saxophonist.play(:saxophonist)
+    Saxophonist.play(:saxophonist)
   end
 
   def play_guitar(_pid, message) do
     say self, message["channel"], "Air guitar ok?"
-    Saxophone.Saxophonist.play(:guitarist)
+    Saxophonist.play(:guitarist)
   end
 
   def move(_pid, message, direction) do

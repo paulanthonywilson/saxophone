@@ -1,7 +1,14 @@
 defmodule Saxophone.GenServerRestarter do
+  @moduledoc """
+  Acts as a back stop. Starts a service (with the supplied module, function, and args).
+  The function is expected to return {:ok, pid}.
+
+  Should the service exit, then it is restarted after an interval. There is also the opportunity
+  to delay the start by a period of time.
+  """
   use GenServer
 
-  def start_link(module, function, args, retry_interval, restarter_otp_opts \\ [], start_delay \\ 0) do
+  def start_link({module, function, args}, retry_interval, restarter_otp_opts \\ [], start_delay \\ 0) do
     GenServer.start_link(__MODULE__,
                          {%{retry_interval: retry_interval,
                            module: module,
@@ -26,10 +33,4 @@ defmodule Saxophone.GenServerRestarter do
     Process.send_after(self, :start, retry_interval)
     {:noreply, status}
   end
-
-  def handle_info(wat, status) do
-    IO.inspect wat
-    {:noreply, status}
-  end
-
 end
