@@ -11,6 +11,7 @@ defmodule Saxophone.NetworkingSupervisor do
   use Supervisor
 
   @ethernet_opts Application.get_env(:saxophone, :ethernet_opts) || []
+  @wifi_opts Application.get_env(:saxophone, :wifi_opts)
 
   @slackbot_retry_seconds Application.get_env(:saxophone, :slackbot_retry_seconds)
   @slackbot_start_delay_seconds Application.get_env(:saxophone, :slackbot_start_delay_seconds)
@@ -22,6 +23,7 @@ defmodule Saxophone.NetworkingSupervisor do
   def init(_) do
     children = [
       worker(Nerves.Networking, [:eth0, @ethernet_opts], function: :setup),
+      worker(Nerves.InterimWiFi, ["wlan0", @wifi_opts], function: :setup),
       worker(Saxophone.GenServerRestarter, [
             {Saxophone.SlackWithNtpSupervisor, :start_link, []},
             slackbot_retry_time,
