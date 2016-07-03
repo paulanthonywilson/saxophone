@@ -31,7 +31,8 @@ defmodule Saxophone.Mixfile do
      {:nerves_networking, github: "nerves-project/nerves_networking", only: :prod},
      {:websocket_client, github: "jeremyong/websocket_client"},
      {:slacker,  "~> 0.0.2"},
-     {:nerves_interim_wifi, path: "../nerve-libs/nerves_interim_wifi", only: :prod},
+     # {:nerves_interim_wifi, path: "../nerve-libs/nerves_interim_wifi", only: :prod},
+     {:nerves_interim_wifi, "~> 0.0.1", only: :prod},
      {:credo, "~> 0.3", only: [:dev, :test]}]
   end
 

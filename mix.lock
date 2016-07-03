@@ -16,13 +16,15 @@
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], []},
   "mimerl": {:hex, :mimerl, "1.0.2", "993f9b0e084083405ed8252b99460c4f0563e41729ab42d9074fd5e52439be88", [:rebar3], []},
   "nerves": {:git, "https://github.com/nerves-project/nerves.git", "fb216ab192b489dce4360c67c327426eb33a4212", []},
+  "nerves_interim_wifi": {:hex, :nerves_interim_wifi, "0.0.1", "429f1ef50884fc4c4afad73177daccc876e751e8f46ee930b5d005805e7c7484", [:mix, :make], [{:nerves_wpa_supplicant, "~> 0.2.1", [hex: :nerves_wpa_supplicant, optional: false]}, {:nerves_network_interface, "~> 0.3.1", [hex: :nerves_network_interface, optional: false]}]},
+  "nerves_network_interface": {:hex, :nerves_network_interface, "0.3.1", "1d079d3cf3f8c7339611b265c3177fbc075651770a92b3f25e146e7629d69d85", [:mix, :make], []},
   "nerves_networking": {:git, "https://github.com/nerves-project/nerves_networking.git", "946a6bd680d710577e8816eff74e1caf12e0c341", []},
   "nerves_system": {:hex, :nerves_system, "0.1.2", "fe149b74300295de213e740daea7e46df57d262d3acffcd753bb0a7b9628918c", [:mix], [{:porcelain, "~> 2.0", [hex: :porcelain, optional: false]}, {:httpoison, "~> 0.8.3", [hex: :httpoison, optional: false]}]},
   "nerves_system_br": {:hex, :nerves_system_br, "0.5.1", "df409fdf1e1c7c9e1d0d94c5ccb6b79b37601198a3d483b26186c30b516e3e49", [:mix], []},
   "nerves_system_rpi2": {:git, "https://github.com/nerves-project/nerves_system_rpi2.git", "23774e4c627ad5aed785bd512d38f8004938065d", []},
   "nerves_toolchain": {:hex, :nerves_toolchain, "0.6.2", "132c9c72d0ca3ed3e34a59597dda561ff8f42b447fa18d1d99227a0d90e0a5db", [:mix], [{:httpoison, "~> 0.8", [hex: :httpoison, optional: false]}]},
   "nerves_toolchain_arm_unknown_linux_gnueabihf": {:hex, :nerves_toolchain_arm_unknown_linux_gnueabihf, "0.6.1", "d2094bdaff79b13a259290363174e4a90079848a951a7b8cbfee2bd2c653fce5", [:mix], [{:nerves_toolchain, "~> 0.6.2", [hex: :nerves_toolchain, optional: false]}]},
-  "net_basic": {:git, "https://github.com/fhunleth/net_basic.ex.git", "de575e07bc8415c4cd8a4fdee58926851543ce5a", [branch: "rename"]},
+  "nerves_wpa_supplicant": {:hex, :nerves_wpa_supplicant, "0.2.1", "8c658ad9a450f58d0f99376131ef23f952cd487ae463102b8c4383c78e368aa7", [:mix, :make], []},
   "plug": {:hex, :plug, "1.1.4", "2eee0e85ad420db96e075b3191d3764d6fff61422b101dc5b02e9cce99cacfc7", [:mix], [{:cowboy, "~> 1.0", [hex: :cowboy, optional: true]}]},
   "poison": {:hex, :poison, "1.5.2", "560bdfb7449e3ddd23a096929fb9fc2122f709bcc758b2d5d5a5c7d0ea848910", [:mix], []},
   "porcelain": {:hex, :porcelain, "2.0.1", "9c3db2b47d8cf6879c0d9ac79db8657333974a88faff09e856569e00c1b5e119", [:mix], []},
@@ -32,4 +34,4 @@
   "slacker": {:hex, :slacker, "0.0.2", "14d590158bdcb84bfe15400c851d10ef9ab052d251179ea468597ba7fe465ae4", [:mix], [{:poison, "~> 1.4", [hex: :poison, optional: false]}, {:inflex, "~> 1.0.0", [hex: :inflex, optional: false]}, {:httpoison, "~> 0.6", [hex: :httpoison, optional: false]}]},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.0", "edee20847c42e379bf91261db474ffbe373f8acb56e9079acb6038d4e0bf414f", [:rebar, :make], []},
   "websocket_client": {:git, "https://github.com/jeremyong/websocket_client.git", "f6892c8b55004008ce2d52be7d98b156f3e34569", []},
-  "wpa_supplicant": {:hex, :wpa_supplicant, "0.2.0", "7a152405c0d451450f9dc199076e8b57a9b96bfdd3a2e688508e32fc82caf7e1", [:mix, :make], []}}
+}
