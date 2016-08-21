@@ -7,7 +7,7 @@ defmodule Saxophone.Mixfile do
   def project do
     [app: :saxophone,
      version: "0.1.1",
-     elixir: "~> 1.2.4",
+     elixir: "~> 1.3.1",
      archives: [nerves_bootstrap: "~> 0.1"],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,

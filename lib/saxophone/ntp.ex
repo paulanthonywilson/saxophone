@@ -75,5 +75,5 @@ defmodule Saxophone.Ntp do
   end
 
   defp next_sync_time(_last_sync_successful = true), do: :timer.minutes(30)
-  defp next_sync_time(_last_sync_successful = false), do: :timer.seconds(10)
+  defp next_sync_time(_last_sync_successful = false), do: :timer.seconds(2)
 end
